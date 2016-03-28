@@ -4,60 +4,38 @@
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
-from shoop.core.models import CompanyContact, PersonContact, Shop
+from shoop.core.models import Shop
 from shoop_mailchimp.interface.base import ShoopMailchimp
-from shoop_mailchimp.interface.contacts import ShoopMailchimpContact
-from shoop_mailchimp.models import MailchimpContact
-
-
-def _update_or_create_contact(shop, contact):
-    client = ShoopMailchimpContact(shop, contact)
-    return client.update_or_create_contact()
-
-
-def _get_contacts_ordered_from_shop(cls, shop):
-    failed_contact_pks = MailchimpContact.objects.filter(
-        latest_push_failed=True
-    ).values_list("contact_id", flat=True)
-    return cls.objects.filter(
-        id__in=failed_contact_pks,
-        customer_orders__shop=shop,marketing_permission=True
-    ).distinct()
-
-
-def _update_or_create_contacts(shop, cls):
-    for contact in _get_contacts_ordered_from_shop(cls, shop):
-        _update_or_create_contact(shop, contact)
-
-
-def update_or_create_contacts(shop):
-    """
-    Update or create Shoop contacts into Mailchimp
-
-    Update all failed ``MailchimpContact`` resources
-    """
-    client = ShoopMailchimp(shop)
-    if not (client.is_configured() and client.get_store_id()):
-        return
-
-    _update_or_create_contacts(shop, CompanyContact)
-    _update_or_create_contacts(shop, PersonContact)
 
 
 def update_or_create_contact(sender, instance, **kwargs):
     """
     Signal handler for Shoop contacts
 
-    Updates or creates contact into Mailchimp if possible
+    Add's contact email to every configured shop list
     """
+    if not instance.marketing_permission:
+        return
+
     for shop in Shop.objects.all():
-        _update_or_create_contact(shop, instance)
+        add_email_to_list(shop, instance.email)
 
 
-def update_or_create_contact_from_order(sender, instance, **kwargs):
+def update_or_create_contact_from_order(sender, order, *args, **kwargs):
     """
     Signal handler for Shoop orders
-
-    Updates or creates order customer into Mailchimp if possible
     """
-    _update_or_create_contact(instance.shop, instance.customer)
+    if order.email and order.marketing_permission:
+        add_email_to_list(order.shop, order.email)
+        return
+
+
+def add_email_to_list(shop, email):
+    """
+    Add email to Mailchimp list
+
+    :param email: email to add in the list
+    :return:
+    """
+    client = ShoopMailchimp(shop)
+    client.add_email_to_list(email)

@@ -22,14 +22,4 @@ class MailchimpAdminModule(AdminModule):
                 "shoop_mailchimp.admin.views.configurations_test",
                 name="mailchimp.configurations_test"
             ),
-            admin_url(
-                "^mailchimp/initialize_store/(?P<shop_pk>\d+)/$",
-                "shoop_mailchimp.admin.views.initialize_store",
-                name="mailchimp.initialize_store"
-            ),
-            admin_url(
-                "^mailchimp/update_contacts/(?P<shop_pk>\d+)/$",
-                "shoop_mailchimp.admin.views.update_contacts",
-                name="mailchimp.update_contacts"
-            ),
         ]

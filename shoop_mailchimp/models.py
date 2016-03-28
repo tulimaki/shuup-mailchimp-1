@@ -7,7 +7,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from shoop.core.models import Contact, ContactGroup, Shop
+from shoop.core.models import Shop
 from shoop.utils.analog import define_log_model
 
 
@@ -16,23 +16,13 @@ class MailchimpBaseModel(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
     sent_to_mailchimp = models.DateTimeField(null=True, verbose_name=_("sent to mailchimp"))
-    latest_push_failed = models.NullBooleanField(verbose_name=_("latest push failed"))
-    mailchimp_id = models.CharField(max_length=160, null=True, verbose_name=_("mailchimp id"))
 
     class Meta:
         abstract = True
-        unique_together = ("shop", "mailchimp_id")
+
 
 class MailchimpContact(MailchimpBaseModel):
-    contact = models.ForeignKey(Contact, verbose_name=_("contact"))
-    # TODO: add contact email for cases it changes we can take action
-
-    class Meta:
-        abstract = False
-
-
-class MailchimpContactGroup(MailchimpBaseModel):
-    group = models.ForeignKey(ContactGroup, verbose_name=_("contact group"))
+    email = models.EmailField(max_length=256, verbose_name=_('email'))
 
     class Meta:
         abstract = False
