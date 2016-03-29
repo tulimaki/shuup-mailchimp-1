@@ -26,6 +26,10 @@ class AppConfig(shoop.apps.AppConfig):
         "admin_shop_form_part": [
             "shoop_mailchimp.admin.forms:ConfigurationFormPart"
         ],
+        "xtheme_plugin": ["shoop_mailchimp.plugins:NewsletterPlugin"],
+        "front_urls": [
+            "shoop_mailchimp.urls:urlpatterns"
+        ],
     }
 
     def ready(self):

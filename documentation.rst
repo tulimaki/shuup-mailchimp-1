@@ -46,6 +46,8 @@ Order creation: if order or contact marketing permission is on and
 email is not already sent to Mailchimp. Contact email is sent to
 only list based on orders Shop.
 
+Plugin: emails can be send to Mailchimp through xtheme plugin
+
 Updating Contacts
 -----------------
 

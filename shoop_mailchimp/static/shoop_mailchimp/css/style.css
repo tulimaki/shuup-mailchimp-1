@@ -1,0 +1,19 @@
+section.newsletter-lift {
+    padding: 40px 0px;
+}
+
+section.newsletter-lift div.form-group {
+    margin: 0 auto;
+    width: 90%;
+    margin-bottom: 20px;
+}
+
+section.newsletter-lift div.form-group button.btn.btn-primary {
+    width: 100px;
+}
+
+@media (min-width: 992px) {
+    section.newsletter-lift div.form-group {
+        width: 60%;
+    }
+}
