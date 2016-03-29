@@ -40,7 +40,7 @@
     {{ bs3.field(mailchimp_form["list_id"]) }}
 
     {% set test_url = url("shoop_admin:mailchimp.configurations_test", shop_pk=shop.pk) %}
-    <button type="submit" class="btn btn-warning center-block" onclick="sendCommand('{{ test_url }}')">
+    <button type="submit" class="btn btn-warning center-block" onclick="sendCommand(event, '{{ test_url }}')">
         <i class="fa fa-check"></i>
         {% trans %}Test configurations{% endtrans %}
     </button>
@@ -50,7 +50,7 @@
 
 {% block extra_js %}
 <script>
-    function sendCommand(url) {
+    function sendCommand(event, url) {
         event.preventDefault();
         const defaultError = "{% trans %}Unexpected error happened please try again.{% endtrans %}";
         $.ajax({
