@@ -11,11 +11,10 @@ from django.db.models.signals import post_save
 from shoop import configuration
 from shoop.core.order_creator.signals import order_creator_finished
 from shoop.core.models import CompanyContact, Order, PersonContact
-from shoop.testing.factories import get_default_shop
+from shoop.testing.factories import create_random_company, get_default_shop
 from shoop_mailchimp.configuration_keys import (
-    MC_API, MC_CONTACT_GROUP_CATEGORY_KEY,
-    MC_CONTACT_SIGNAL_DISPATCH_UID, MC_ORDER_SIGNAL_DISPATCH_UID,
-    MC_LIST_ID, MC_STORE_ID, MC_USERNAME
+    MC_API, MC_CONTACT_SIGNAL_DISPATCH_UID,
+    MC_ORDER_SIGNAL_DISPATCH_UID, MC_LIST_ID, MC_USERNAME
 )
 
 
@@ -27,23 +26,22 @@ def default_shop():
 
 @pytest.fixture()
 @pytest.mark.django_db()
-def valid_test_configuration_without_store():
-    configuration.cache.clear()
-    shop = get_default_shop()
-    configuration.set(shop, MC_API, "some-api-key")
-    configuration.set(shop, MC_USERNAME, "some-username")
-    configuration.set(shop, MC_LIST_ID, "some-list-id")
+def valid_company():
+    company = create_random_company()
+    company.marketing_permission = True
+    company.email = "valid@example.com"
+    company.save()
+    return company
 
 
 @pytest.fixture()
 @pytest.mark.django_db()
-def valid_test_configuration_with_store():
+def valid_test_configuration():
     configuration.cache.clear()
     shop = get_default_shop()
     configuration.set(shop, MC_API, "some-api-key")
     configuration.set(shop, MC_USERNAME, "some-username")
     configuration.set(shop, MC_LIST_ID, "some-list-id")
-    configuration.set(shop, MC_STORE_ID, shop.pk)
 
 
 def pytest_configure():

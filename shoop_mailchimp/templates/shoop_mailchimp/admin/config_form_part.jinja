@@ -10,19 +10,14 @@
 
 {% set mailchimp_form = form["mailchimp"] %}
 {% set show_instructions = mailchimp_form.show_instructions() %}
-{% set can_initialize = mailchimp_form.can_initialize() %}
-{% set has_store_id = mailchimp_form.has_store_id() %}
-{% set can_update_contacts = mailchimp_form.can_update_contacts() %}
 
 {% call content_block(_("Mailchimp"), "fa-envelope-o") %}
     {% if show_instructions %}
     <div class="row col-sm-10">
-        <h2>{% trans %}It seems you have not yet initialized your integration!{% endtrans %}</h2>
         <p>
         {% trans -%}
-        To initialize your integration with Mailchimp, please create a Mailchimp list in your Mailchimp admin panel
-        and link it to Shoop. Make sure you setup an empty Mailchimp list for your shop. The List ID can be found under
-        "Settings->List name and defaults" in the Mailchimp admin panel. Store is generated during initialization.
+        To enable your integration with Mailchimp, please create a Mailchimp list in your Mailchimp admin panel
+        and link it to Shoop. The List ID can be found under "Settings->List name and defaults" in the Mailchimp admin panel.
         {%- endtrans %}
         </p>
         <p>
@@ -33,32 +28,24 @@
         </p>
         <p>
         {% trans -%}
-        When you have all the configurations saved press the Initialize-button to activate your integration.
+        When you have all the configurations saved test your integration and enable it.
         {%- endtrans  %}
         </p>
     </div>
     {% endif %}
     <br>
-    <div class="row col-sm-12 text-center">
-        {{ render_command_button(can_initialize, _("Initialize"), url("shoop_admin:mailchimp.initialize_store", shop_pk=shop.pk)) }}
-        {{ render_command_button(can_update_contacts, _("Update Contacts"), url("shoop_admin:mailchimp.update_contacts", shop_pk=shop.pk)) }}
-    </div>
-    <br>
     {{ bs3.field(mailchimp_form["is_enabled"]) }}
     {{ bs3.field(mailchimp_form["username"]) }}
     {{ bs3.field(mailchimp_form["api_key"]) }}
     {{ bs3.field(mailchimp_form["list_id"]) }}
-    {{ bs3.field(mailchimp_form["store_id"]) }}
 
-    {% if not can_initialize %}
-        {% set test_url = url("shoop_admin:mailchimp.configurations_test", shop_pk=shop.pk) %}
-        <button type="submit" class="btn btn-warning center-block" onclick="sendCommand('{{ test_url }}')">
-            <i class="fa fa-check"></i>
-            {% trans %}Test configurations{% endtrans %}
-        </button>
-        <br>
-        <p class="text-center">{% trans %}Please save configuration keys before testing.{% endtrans %}</p>
-    {% endif %}
+    {% set test_url = url("shoop_admin:mailchimp.configurations_test", shop_pk=shop.pk) %}
+    <button type="submit" class="btn btn-warning center-block" onclick="sendCommand('{{ test_url }}')">
+        <i class="fa fa-check"></i>
+        {% trans %}Test configurations{% endtrans %}
+    </button>
+    <br>
+    <p class="text-center">{% trans %}Please save configuration keys before testing.{% endtrans %}</p>
 {% endcall %}
 
 {% block extra_js %}

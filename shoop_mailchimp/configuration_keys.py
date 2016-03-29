@@ -7,11 +7,8 @@
 
 # Configuration keys
 MC_API = "mailchimp:api_key"
-MC_CONTACT_GROUP_CATEGORY_KEY = "mailchimp:contact_group_category_key"
-MC_CONTACT_GROUP_CATEGORY_NAME = "Contact Groups"
 MC_ENABLED = "mailchimp:enabled"
 MC_LIST_ID = "mailchimp:list_id"
-MC_STORE_ID = "mailchimp:store_id"
 MC_USERNAME = "mailchimp:username"
 
 # Signal dispatch UIDs

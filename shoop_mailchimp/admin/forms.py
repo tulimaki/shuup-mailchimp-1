@@ -12,18 +12,15 @@ from django.utils.translation import ugettext_lazy as _
 from shoop import configuration
 from shoop.admin.form_part import FormPart, TemplatedFormDef
 from shoop_mailchimp.configuration_keys import (
-    MC_API, MC_ENABLED, MC_LIST_ID,MC_STORE_ID, MC_USERNAME
+    MC_API, MC_ENABLED, MC_LIST_ID, MC_USERNAME
 )
 from six import iteritems
-
-from shoop_mailchimp.models import MailchimpContact
 
 
 FORM_FIELD_TO_CONF_KEY_MAP = {
     "api_key": MC_API,
     "list_id": MC_LIST_ID,
     "is_enabled": MC_ENABLED,
-    "store_id": MC_STORE_ID,
     "username": MC_USERNAME
 }
 
@@ -32,10 +29,6 @@ class ConfigurationForm(forms.Form):
     api_key = forms.CharField(label=_("Mailchimp API key"), max_length=160, required=False)
     list_id = forms.CharField(
         label=_("Mailchimp list id"),
-        max_length=24,
-        required=False)
-    store_id = forms.CharField(
-        label=_("Mailchimp store id"),
         max_length=24,
         required=False)
     is_enabled = forms.BooleanField(label=_("Enabled"), required=False)
@@ -50,17 +43,6 @@ class ConfigurationForm(forms.Form):
     def show_instructions(self):
         required_configurations = [MC_API, MC_LIST_ID, MC_USERNAME]
         return not all([configuration.get(self.shop, conf) for conf in required_configurations])
-
-    def can_initialize(self):
-        required_configurations = [MC_API, MC_LIST_ID, MC_USERNAME]
-        store_id = configuration.get(self.shop, MC_STORE_ID)
-        return all([configuration.get(self.shop, conf) for conf in required_configurations]) and not store_id
-
-    def has_store_id(self):
-        return bool(configuration.get(self.shop, MC_STORE_ID))
-
-    def can_update_contacts(self):
-        return MailchimpContact.objects.filter(shop=self.shop, latest_push_failed=True).exists()
 
     def save(self):
         if not self.changed_data:

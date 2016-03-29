@@ -22,60 +22,11 @@ def raise_on_request(url, **kwargs):
     return MockedResponse(url, **kwargs)
 
 
-def get_empty_list(url, **kwargs):
+def success_response(url, **kwargs):
     class MockedResponse:
         def __init__(self, url, **kwargs):
             self.url = url
 
         def json(self):
             return {"id": "some_list_id", "stats": {"member_count": 0}}
-    return MockedResponse(url, **kwargs)
-
-
-def get_non_empty_list(url, **kwargs):
-    class MockedResponse:
-        def __init__(self, url, **kwargs):
-            self.url = url
-
-        def json(self):
-            return {"id": "some_list_id", "stats": {"member_count": 43}}
-    return MockedResponse(url, **kwargs)
-
-
-def create_store_success(url, **kwargs):
-    class MockedResponse:
-        def __init__(self, url, **kwargs):
-            self.url = url
-            self.data = kwargs.get("json")
-            assert self.data is not None
-            self.status_code =200
-
-        def json(self):
-            return {"id": self.data.get("id")}
-    return MockedResponse(url, **kwargs)
-
-
-def create_or_update_resource_success(url, **kwargs):
-    class MockedResponse:
-        def __init__(self, url, **kwargs):
-            self.url = url
-            self.data = kwargs.get("json")
-            assert self.data is not None
-            self.status_code = 200
-
-        def json(self):
-            return {"id": self.data.get("id") or 123}  # data does not have id, but actual Mailchimp does
-    return MockedResponse(url, **kwargs)
-
-
-def mailchimp_response_failure_with_200(url, **kwargs):
-    class MockedResponse:
-        def __init__(self, url, **kwargs):
-            self.url = url
-            self.data = kwargs.get("json")
-            assert self.data is not None
-            self.status_code = 200
-
-        def json(self):
-            return {"title": "failure", "detail": "Some failure description"}
     return MockedResponse(url, **kwargs)

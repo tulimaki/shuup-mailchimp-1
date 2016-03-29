@@ -8,15 +8,13 @@ from __future__ import unicode_literals
 
 from mailchimp3 import MailChimp
 
-from shoop_mailchimp.interface.customer import Customer
-from shoop_mailchimp.interface.store import Store
+from shoop_mailchimp.interface.member import ShoopMember
 
 
 class ShoopMailchimpClient(MailChimp):
     """
-    mailchimp3.Mailchimp with added eCommerce support for Shoop
+    mailchimp3.Mailchimp with extended ShoopMember functionality
     """
     def __init__(self, *args, **kwargs):
         super(ShoopMailchimpClient, self).__init__(*args, **kwargs)
-        self.store = Store(self)
-        self.customer = Customer(self)
+        self.shoop_member = ShoopMember(self)
