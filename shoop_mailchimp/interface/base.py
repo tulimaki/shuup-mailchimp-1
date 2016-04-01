@@ -12,6 +12,7 @@ import requests
 from django.utils.timezone import now
 
 from shoop import configuration
+from shoop.core.models import CompanyContact, PersonContact
 from shoop.utils.analog import LogEntryKind
 from shoop_mailchimp.configuration_keys import (
     MC_API, MC_ENABLED, MC_LIST_ID, MC_USERNAME
@@ -57,23 +58,42 @@ class ShoopMailchimp(object):
     def _is_enabled(self):
         return bool(self.list_id and self.client and configuration.get(self.shop, MC_ENABLED))
 
-    def add_email_to_list(self, email):
+    def add_email_to_list(self, email, contact=None):
         """
         Add given email to configured Mailchimp list
 
         :param email: email to add list
+        :param contact: optional associated Shoop contact
         """
         if not self._is_enabled():
             return
 
-        mailchimp_contact, created = MailchimpContact.objects.get_or_create(shop=self.shop, email=email)
-        if mailchimp_contact.sent_to_mailchimp:
+        mailchimp_contact, created = MailchimpContact.objects.get_or_create(
+            shop=self.shop, email=email
+        )
+        if not contact and mailchimp_contact.sent_to_mailchimp:
             return
+
+        if contact and mailchimp_contact.contact == contact:
+            return
+
+        if contact != mailchimp_contact.contact:
+            mailchimp_contact.contact = contact
+            mailchimp_contact.save()
+
         try:
+
+            merge_fields = None
+            if isinstance(contact, PersonContact):
+                merge_fields = {"FNAME": contact.first_name, "LNAME": contact.last_name}
+            elif isinstance(contact, CompanyContact):
+                # Mailchimp has no default merge tag for company name, so using first name tag
+                merge_fields = {"FNAME": contact.full_name}
+
             resp = self.client.shoop_member.update_or_create(
                 self.list_id,
                 self._get_subscriber_hash(email),
-                {"status": "subscribed", "email_address": email}
+                {"status": "subscribed", "email_address": email, "merge_fields": merge_fields}
             )
             if not (resp and resp.get("id")):
                 mailchimp_contact.add_log_entry(resp.get("title"), "client_error", LogEntryKind.ERROR)

@@ -7,7 +7,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from shoop.core.models import Shop
+from shoop.core.models import Contact, Shop
 from shoop.utils.analog import define_log_model
 
 
@@ -22,7 +22,15 @@ class MailchimpBaseModel(models.Model):
 
 
 class MailchimpContact(MailchimpBaseModel):
-    email = models.EmailField(max_length=256, verbose_name=_('email'))
+    contact = models.ForeignKey(
+        Contact,
+        related_name="+",
+        on_delete=models.CASCADE,
+        verbose_name=_("contact"),
+        blank=True,
+        null=True,
+    )
+    email = models.EmailField(max_length=256, verbose_name=_('email'), unique=True)
 
     class Meta:
         abstract = False
