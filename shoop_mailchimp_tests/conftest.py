@@ -11,7 +11,9 @@ from django.db.models.signals import post_save
 from shoop import configuration
 from shoop.core.order_creator.signals import order_creator_finished
 from shoop.core.models import CompanyContact, Order, PersonContact
-from shoop.testing.factories import create_random_company, get_default_shop
+from shoop.testing.factories import (
+    create_random_company, create_random_person, get_default_shop
+)
 from shoop_mailchimp.configuration_keys import (
     MC_API, MC_CONTACT_SIGNAL_DISPATCH_UID,
     MC_ORDER_SIGNAL_DISPATCH_UID, MC_LIST_ID, MC_USERNAME
@@ -32,6 +34,16 @@ def valid_company():
     company.email = "valid@example.com"
     company.save()
     return company
+
+
+@pytest.fixture()
+@pytest.mark.django_db()
+def valid_person():
+    person = create_random_person()
+    person.marketing_permission = True
+    person.email = "valid@example.com"
+    person.save()
+    return person
 
 
 @pytest.fixture()

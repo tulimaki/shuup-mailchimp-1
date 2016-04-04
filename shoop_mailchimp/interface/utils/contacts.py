@@ -18,7 +18,7 @@ def update_or_create_contact(sender, instance, **kwargs):
         return
 
     for shop in Shop.objects.all():
-        add_email_to_list(shop, instance.email)
+        add_email_to_list(shop, instance.email, contact=instance)
 
 
 def update_or_create_contact_from_order(sender, order, *args, **kwargs):
@@ -26,16 +26,17 @@ def update_or_create_contact_from_order(sender, order, *args, **kwargs):
     Signal handler for Shoop orders
     """
     if order.email and order.marketing_permission:
-        add_email_to_list(order.shop, order.email)
+        add_email_to_list(order.shop, order.email, contact=order.customer)
         return
 
 
-def add_email_to_list(shop, email):
+def add_email_to_list(shop, email, contact=None):
     """
-    Add email to Mailchimp list
+    Add email and optional contact to Mailchimp list
 
     :param email: email to add in the list
+    :param contact: optional associated Shoop contact
     :return:
     """
     client = ShoopMailchimp(shop)
-    client.add_email_to_list(email)
+    client.add_email_to_list(email, contact=contact)
