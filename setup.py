@@ -4,7 +4,7 @@ import setuptools
 if __name__ == '__main__':
     setuptools.setup(
         name="shoop-mailchimp",
-        version="0.3.2",
+        version="0.3.3",
         description="Shoop Mailchimp Integration",
         packages=setuptools.find_packages(),
         install_requires=["mailchimp3"],

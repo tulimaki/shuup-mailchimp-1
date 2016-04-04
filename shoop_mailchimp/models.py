@@ -30,7 +30,7 @@ class MailchimpContact(MailchimpBaseModel):
         blank=True,
         null=True,
     )
-    email = models.EmailField(max_length=256, verbose_name=_('email'), unique=True)
+    email = models.EmailField(max_length=254, verbose_name=_('email'), unique=True)
 
     class Meta:
         abstract = False
