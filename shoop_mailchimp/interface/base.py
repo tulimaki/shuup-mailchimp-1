@@ -83,7 +83,7 @@ class ShoopMailchimp(object):
 
         try:
 
-            merge_fields = None
+            merge_fields = {}
             if isinstance(contact, PersonContact):
                 merge_fields = {"FNAME": contact.first_name, "LNAME": contact.last_name}
             elif isinstance(contact, CompanyContact):
@@ -104,4 +104,3 @@ class ShoopMailchimp(object):
         except requests.HTTPError as e:
             mailchimp_contact.add_log_entry(
                 "Unexpected error: Couldn't send email to list.", "client_error", LogEntryKind.ERROR)
-            raise
