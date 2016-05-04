@@ -1,5 +1,10 @@
 import setuptools
 
+try:
+    import shoop_setup_utils
+except ImportError:
+    shoop_setup_utils = None
+
 
 if __name__ == '__main__':
     setuptools.setup(
@@ -7,7 +12,11 @@ if __name__ == '__main__':
         version="0.3.3",
         description="Shoop Mailchimp Integration",
         packages=setuptools.find_packages(),
-        install_requires=["mailchimp3"],
         include_package_data=True,
-        entry_points={"shoop.addon": "shoop_mailchimp=shoop_mailchimp"}
+        entry_points={"shoop.addon": "shoop_mailchimp=shoop_mailchimp"},
+        cmdclass=(shoop_setup_utils.COMMANDS if shoop_setup_utils else {}),
+        install_requires=[
+            'mailchimp3',
+            'shoop>=3.0,<5',
+        ],
     )
