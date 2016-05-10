@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 
 import hashlib
 import requests
+import six
 
 from django.utils.timezone import now
 
@@ -36,7 +37,7 @@ class ShoopMailchimp(object):
 
     def _get_client(self):
         configurations = self._get_configurations_for_client()
-        if not all(configurations.itervalues()):
+        if not all(six.itervalues(configurations)):
             return
         return ShoopMailchimpClient(configurations["username"], configurations["api_key"])
 
