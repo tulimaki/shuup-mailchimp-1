@@ -49,7 +49,7 @@ class ShoopMailchimp(object):
         hash of the lowercase version of the list member's email
         address
         """
-        return hashlib.md5(email.lower()).hexdigest()
+        return hashlib.md5(email.lower().encode('utf-8')).hexdigest()
 
     def get_list(self):
         if not (self.list_id and self.client):
