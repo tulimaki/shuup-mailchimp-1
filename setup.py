@@ -16,7 +16,7 @@ if __name__ == '__main__':
         entry_points={"shoop.addon": "shoop_mailchimp=shoop_mailchimp"},
         cmdclass=(shoop_setup_utils.COMMANDS if shoop_setup_utils else {}),
         install_requires=[
-            'mailchimp3',
+            'mailchimp3>=1.0.12,<2',
             'shoop>=3.0,<5',
         ],
     )
