@@ -7,14 +7,14 @@
 from __future__ import unicode_literals
 
 import hashlib
+
 import requests
 import six
-
 from django.utils.timezone import now
-
 from shoop import configuration
 from shoop.core.models import CompanyContact, PersonContact
 from shoop.utils.analog import LogEntryKind
+
 from shoop_mailchimp.configuration_keys import (
     MC_API, MC_ENABLED, MC_LIST_ID, MC_USERNAME
 )
@@ -102,6 +102,6 @@ class ShoopMailchimp(object):
             mailchimp_contact.sent_to_mailchimp = now()
             mailchimp_contact.save()
             return mailchimp_contact
-        except requests.HTTPError as e:
+        except requests.HTTPError:
             mailchimp_contact.add_log_entry(
                 "Unexpected error: Couldn't send email to list.", "client_error", LogEntryKind.ERROR)

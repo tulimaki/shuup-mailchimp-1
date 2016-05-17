@@ -7,8 +7,8 @@
 import pytest
 import requests
 from mock import Mock, patch
-
 from shoop import configuration
+
 from shoop_mailchimp.configuration_keys import MC_LIST_ID
 from shoop_mailchimp.interface import interface_test
 from shoop_mailchimp_tests.mock_responses import (

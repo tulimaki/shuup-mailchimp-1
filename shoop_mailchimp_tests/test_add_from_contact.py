@@ -6,14 +6,15 @@
 # LICENSE file in the root directory of this source tree.
 import pytest
 import requests
-
 from django.utils.timezone import now
 from mock import Mock, patch
-
 from shoop import configuration
 from shoop.testing.factories import create_random_person
+
 from shoop_mailchimp.configuration_keys import MC_ENABLED
-from shoop_mailchimp.interface import add_email_to_list, update_or_create_contact
+from shoop_mailchimp.interface import (
+    add_email_to_list, update_or_create_contact
+)
 from shoop_mailchimp.models import MailchimpContact
 from shoop_mailchimp_tests.mock_responses import (
     raise_on_request, success_response
@@ -53,7 +54,7 @@ def test_add_contact_without_marketing_permission(default_shop, valid_company, v
 @patch.object(requests, 'post', Mock(side_effect=raise_on_request))
 @patch.object(requests, 'put', Mock(side_effect=success_response))
 @patch.object(requests, 'get', Mock(side_effect=raise_on_request))
-def test_add_contact_with_disabled_integration(default_shop, valid_company, valid_test_configuration):
+def test_add_contact_with_enabled_integration(default_shop, valid_company, valid_test_configuration):
     configuration.set(default_shop, MC_ENABLED, True)
 
     assert MailchimpContact.objects.count() == 0

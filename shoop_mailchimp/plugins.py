@@ -7,7 +7,6 @@
 # LICENSE file in the root directory of this source tree.
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-
 from shoop.xtheme import TemplatedPlugin
 from shoop.xtheme.plugins.forms import TranslatableField
 from shoop.xtheme.resources import add_resource
