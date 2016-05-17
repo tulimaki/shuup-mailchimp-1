@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from shoop_mailchimp.interface import add_email_to_list
 
+
 @csrf_exempt
 def subscribe_newsletter(request):
     if request.method == "POST":
@@ -20,6 +21,6 @@ def subscribe_newsletter(request):
             validate_email(email)
             add_email_to_list(request.shop, email)
             return JsonResponse({"message": "success"}, status=200)
-        except ValidationError as e:
+        except ValidationError:
             return JsonResponse({"message": "error"}, status=400)
     return JsonResponse({"message": "error"}, status=400)

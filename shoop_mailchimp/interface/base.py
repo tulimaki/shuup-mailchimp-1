@@ -102,6 +102,6 @@ class ShoopMailchimp(object):
             mailchimp_contact.sent_to_mailchimp = now()
             mailchimp_contact.save()
             return mailchimp_contact
-        except requests.HTTPError as e:
+        except requests.HTTPError:
             mailchimp_contact.add_log_entry(
                 "Unexpected error: Couldn't send email to list.", "client_error", LogEntryKind.ERROR)

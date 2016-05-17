@@ -18,7 +18,6 @@ from shoop_mailchimp.interface import (
 )
 
 
-
 class AppConfig(shoop.apps.AppConfig):
     name = "shoop_mailchimp"
     provides = {

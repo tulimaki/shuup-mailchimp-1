@@ -53,7 +53,7 @@ def test_add_contact_without_marketing_permission(default_shop, valid_company, v
 @patch.object(requests, 'post', Mock(side_effect=raise_on_request))
 @patch.object(requests, 'put', Mock(side_effect=success_response))
 @patch.object(requests, 'get', Mock(side_effect=raise_on_request))
-def test_add_contact_with_disabled_integration(default_shop, valid_company, valid_test_configuration):
+def test_add_contact_with_enabled_integration(default_shop, valid_company, valid_test_configuration):
     configuration.set(default_shop, MC_ENABLED, True)
 
     assert MailchimpContact.objects.count() == 0
