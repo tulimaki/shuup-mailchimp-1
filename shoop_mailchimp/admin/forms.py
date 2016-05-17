@@ -8,14 +8,13 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-
 from shoop import configuration
 from shoop.admin.form_part import FormPart, TemplatedFormDef
+from six import iteritems
+
 from shoop_mailchimp.configuration_keys import (
     MC_API, MC_ENABLED, MC_LIST_ID, MC_USERNAME
 )
-from six import iteritems
-
 
 FORM_FIELD_TO_CONF_KEY_MAP = {
     "api_key": MC_API,

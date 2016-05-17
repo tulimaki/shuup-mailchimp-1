@@ -7,14 +7,14 @@
 from __future__ import unicode_literals
 
 import hashlib
+
 import requests
 import six
-
 from django.utils.timezone import now
-
 from shoop import configuration
 from shoop.core.models import CompanyContact, PersonContact
 from shoop.utils.analog import LogEntryKind
+
 from shoop_mailchimp.configuration_keys import (
     MC_API, MC_ENABLED, MC_LIST_ID, MC_USERNAME
 )

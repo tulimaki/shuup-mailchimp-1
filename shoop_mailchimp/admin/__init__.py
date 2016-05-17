@@ -7,7 +7,6 @@
 from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
-
 from shoop.admin.base import AdminModule
 from shoop.admin.utils.urls import admin_url
 

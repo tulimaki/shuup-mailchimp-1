@@ -8,8 +8,8 @@ from __future__ import unicode_literals
 
 from django.http.response import JsonResponse
 from django.utils.translation import ugettext as _
-
 from shoop.core.models import Shop
+
 from shoop_mailchimp.interface import interface_test
 
 

@@ -8,9 +8,7 @@ from shoop_mailchimp.interface.utils.contacts import (
     add_email_to_list, update_or_create_contact,
     update_or_create_contact_from_order
 )
-from shoop_mailchimp.interface.utils.testing import (
-    interface_test
-)
+from shoop_mailchimp.interface.utils.testing import interface_test
 
 __all__ = [
     "add_email_to_list",

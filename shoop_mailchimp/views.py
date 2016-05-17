@@ -6,7 +6,7 @@
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 
-from django.core.validators import ValidationError, validate_email
+from django.core.validators import validate_email, ValidationError
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 

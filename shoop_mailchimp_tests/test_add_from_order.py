@@ -7,9 +7,9 @@
 import pytest
 import requests
 from mock import Mock, patch
-
 from shoop import configuration
 from shoop.testing.factories import create_empty_order
+
 from shoop_mailchimp.configuration_keys import MC_ENABLED
 from shoop_mailchimp.interface import update_or_create_contact_from_order
 from shoop_mailchimp.models import MailchimpContact
