@@ -9,7 +9,7 @@ except ImportError:
 if __name__ == '__main__':
     setuptools.setup(
         name="shoop-mailchimp",
-        version="0.4.0",
+        version="0.4.1",
         description="Shoop Mailchimp Integration",
         packages=setuptools.find_packages(),
         include_package_data=True,
