@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('shuup', '0016_shop_contact_address'),
+        ('shuup', '0001_initial'),
     ]
 
     operations = [
