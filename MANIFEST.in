@@ -1,4 +1,4 @@
 include README.rst
 include LICENSE
 
-recursive-include shoop_mailchimp *.css *.jinja *.js *.po *.mo
+recursive-include shuup_mailchimp *.css *.jinja *.js *.po *.mo
