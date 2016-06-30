@@ -1,10 +1,10 @@
-Shoop Mailchimp Documentation
+Shuup Mailchimp Documentation
 =============================
 
 Introduction
 ------------
 
-Shoop Mailchimp integration uses Mailchimp v3 API to send emails
+Shuup Mailchimp integration uses Mailchimp v3 API to send emails
 into Mailchimp.
 
 More information about the API can be found at `here <http://developer.mailchimp.com/documentation/mailchimp/reference/overview/>`_.
