@@ -21,7 +21,7 @@ def remove_duplicates(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shuup', '0019_contact_merchant_notes'),
+        ('shuup', '0001_initial'),
         ('shuup_mailchimp', '0002_simplify_models'),
     ]
 
