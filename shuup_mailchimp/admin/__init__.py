@@ -7,8 +7,11 @@
 from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
+
 from shuup.admin.base import AdminModule
+from shuup.admin.utils.permissions import get_default_model_permissions
 from shuup.admin.utils.urls import admin_url
+from shuup_mailchimp.models import MailchimpContact
 
 
 class MailchimpAdminModule(AdminModule):
@@ -22,3 +25,6 @@ class MailchimpAdminModule(AdminModule):
                 name="mailchimp.configurations_test"
             ),
         ]
+
+    def get_required_permissions(self):
+        return get_default_model_permissions(MailchimpContact)
