@@ -22,7 +22,8 @@ class MailchimpAdminModule(AdminModule):
             admin_url(
                 "^mailchimp/configurations_test/(?P<shop_pk>\d+)/$",
                 "shuup_mailchimp.admin.views.configurations_test",
-                name="mailchimp.configurations_test"
+                name="mailchimp.configurations_test",
+                permissions=get_default_model_permissions(MailchimpContact),
             ),
         ]
 
