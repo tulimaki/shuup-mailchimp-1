@@ -6,16 +6,6 @@
 # LICENSE file in the root directory of this source tree.
 
 import shuup.apps
-from django.db.models.signals import post_save
-from shuup.core.models import CompanyContact, PersonContact
-from shuup.core.order_creator.signals import order_creator_finished
-
-from shuup_mailchimp.configuration_keys import (
-    MC_CONTACT_SIGNAL_DISPATCH_UID, MC_ORDER_SIGNAL_DISPATCH_UID
-)
-from shuup_mailchimp.interface import (
-    update_or_create_contact, update_or_create_contact_from_order
-)
 
 
 class AppConfig(shuup.apps.AppConfig):
@@ -32,6 +22,16 @@ class AppConfig(shuup.apps.AppConfig):
     }
 
     def ready(self):
+        from django.db.models.signals import post_save
+        from shuup.core.models import CompanyContact, PersonContact
+        from shuup.core.order_creator.signals import order_creator_finished
+
+        from shuup_mailchimp.configuration_keys import (
+            MC_CONTACT_SIGNAL_DISPATCH_UID, MC_ORDER_SIGNAL_DISPATCH_UID
+        )
+        from shuup_mailchimp.interface import (
+            update_or_create_contact, update_or_create_contact_from_order
+        )
         post_save.connect(update_or_create_contact, sender=CompanyContact, dispatch_uid=MC_CONTACT_SIGNAL_DISPATCH_UID)
         post_save.connect(update_or_create_contact, sender=PersonContact, dispatch_uid=MC_CONTACT_SIGNAL_DISPATCH_UID)
         order_creator_finished.connect(update_or_create_contact_from_order, dispatch_uid=MC_ORDER_SIGNAL_DISPATCH_UID)
